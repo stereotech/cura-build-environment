@@ -46,7 +46,7 @@ ExternalProject_Add(Python
 
 # Only build geos on Linux
 if(BUILD_OS_LINUX)
-    SetProjectDependencies(TARGET Python DEPENDS OpenBLAS Geos OpenSSL xz zlib sqlite3)
+    SetProjectDependencies(TARGET Python DEPENDS OpenBLAS Geos libffi OpenSSL xz zlib sqlite3)
 elseif(BUILD_OS_OSX)
     SetProjectDependencies(TARGET Python DEPENDS OpenBLAS Geos OpenSSL xz zlib sqlite3)
 else()
