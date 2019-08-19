@@ -63,8 +63,8 @@ elseif(BUILD_OS_LINUX)
 	 -opengl desktop -no-gtk
 	 -qt-xcb
 	 -fontconfig
-	 -system-freetype
-	 -system-zlib
+	 -qt-freetype
+	 -qt-zlib
 	 -ssl -openssl-runtime
 	 -I "${CMAKE_INSTALL_PREFIX}/include"
 	 -L "${CMAKE_INSTALL_PREFIX}/lib")
@@ -77,6 +77,14 @@ if(BUILD_OS_OSX)
         CONFIGURE_COMMAND ${_qt_configure_cmd} ${qt_options}
         BUILD_IN_SOURCE 1
         DEPENDS OpenSSL
+    )
+elseif(BUILD_OS_LINUX)
+    ExternalProject_Add(Qt
+        URL ${qt_url}
+        URL_MD5 ${qt_md5}
+        CONFIGURE_COMMAND ${_qt_configure_cmd} ${qt_options}
+        BUILD_IN_SOURCE 1
+        DEPENDS OpenSSL fontconfig
     )
 else()
     ExternalProject_Add(Qt
