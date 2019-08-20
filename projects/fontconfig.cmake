@@ -1,8 +1,9 @@
 if(BUILD_OS_LINUX)
     set(_fontconfig_config_cmd
+        PKG_CONFIG_PATH="${CMAKE_INSTALL_PREFIX}/lib/pkgconfig"
         ./configure --disable-debug --disable-dependency-tracking --disable-silent-rules
             --prefix=${CMAKE_INSTALL_PREFIX}
-        )
+    )
 
     ExternalProject_Add(fontconfig
         URL https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.92.tar.gz
@@ -12,5 +13,5 @@ if(BUILD_OS_LINUX)
         INSTALL_COMMAND make install
         BUILD_IN_SOURCE 1
     )
-    #SetProjectDependencies(TARGET _fontconfig_config_cmd DEPENDS xz)
+    SetProjectDependencies(TARGET fontconfig DEPENDS freetype)
 endif()
