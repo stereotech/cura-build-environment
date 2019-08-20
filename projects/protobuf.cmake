@@ -70,16 +70,18 @@ if(BUILD_OS_OSX AND OSX_USE_GCC)
         -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}/gcc
         -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}/gcc
         -DCMAKE_C_COMPILER=${OSX_GCC_C_COMPILER}
+        -DCMAKE_C_FLAGS="-isystem ${CMAKE_PREFIX_PATH}/gcc/include"
         -DCMAKE_CXX_COMPILER=${OSX_GCC_CXX_COMPILER}
+        -DCMAKE_CXX_FLAGS="-isystem ${CMAKE_PREFIX_PATH}/gcc/include"
         -Dprotobuf_BUILD_TESTS=OFF
-        -Dprotobuf_BUILD_SHARED_LIBS=OFF
+        -Dprotobuf_BUILD_SHARED_LIBS=ON
     )
 
     ExternalProject_Add(Protobuf-GCC
-        URL https://github.com/protocolbuffers/protobuf/archive/v3.9.1.tar.gz
-        URL_MD5 ea53e87a5ece35f77aa006b91aceee56
+        URL https://github.com/protocolbuffers/protobuf/archive/v3.0.2.tar.gz
+        URL_MD5 7349a7f43433d72c6d805c6ca22b7eeb
         DEPENDS Protobuf
-        CONFIGURE_COMMAND ${CMAKE_COMMAND} ${protobuf_configure_args} -G "Makefiles" ../Protobuf-GCC/cmake
+        CONFIGURE_COMMAND ${CMAKE_COMMAND} ${protobuf_configure_args} -G "Unix Makefiles" ../Protobuf-GCC/cmake
         BUILD_COMMAND make
         INSTALL_COMMAND make install
     )

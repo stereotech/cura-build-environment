@@ -1,7 +1,7 @@
 if(NOT BUILD_OS_WINDOWS)
     set(geos_configure_args
         -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
-        -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}
+        -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
         -DGEOS_ENABLE_TESTS=OFF
     )
@@ -20,8 +20,8 @@ if(NOT BUILD_OS_WINDOWS)
     endif()
 
     ExternalProject_Add(Geos
-        URL http://download.osgeo.org/geos/geos-3.7.1.tar.bz2
-        URL_HASH SHA256=0006c7b49eaed016b9c5c6f872417a7d7dc022e069ddd683335793d905a8228c
+        URL http://download.osgeo.org/geos/geos-3.7.2.tar.bz2
+        URL_HASH SHA256=2166e65be6d612317115bfec07827c11b403c3f303e0a7420a2106bc999d7707
         CONFIGURE_COMMAND ${CMAKE_COMMAND} ${geos_configure_args} -G ${CMAKE_GENERATOR} ../Geos
     )
 endif()
