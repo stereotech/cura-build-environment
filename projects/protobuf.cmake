@@ -61,3 +61,26 @@ if(BUILD_OS_WINDOWS)
         INSTALL_COMMAND mingw32-make install
     )
 endif()
+
+if(BUILD_OS_OSX AND OSX_USE_GCC)
+    # Compile it again, this time using GCC. Mac OS X clang doesn't support OpenMP but GCC does. Use GCC to compile
+    # CuraEngine so it can use multithreading.
+    set(protobuf_configure_args
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}/gcc
+        -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}/gcc
+        -DCMAKE_C_COMPILER=${OSX_GCC_C_COMPILER}
+        -DCMAKE_CXX_COMPILER=${OSX_GCC_CXX_COMPILER}
+        -Dprotobuf_BUILD_TESTS=OFF
+        -Dprotobuf_BUILD_SHARED_LIBS=OFF
+    )
+
+    ExternalProject_Add(Protobuf-GCC
+        URL https://github.com/protocolbuffers/protobuf/archive/v3.9.1.tar.gz
+        URL_MD5 ea53e87a5ece35f77aa006b91aceee56
+        DEPENDS Protobuf
+        CONFIGURE_COMMAND ${CMAKE_COMMAND} ${protobuf_configure_args} -G "Makefiles" ../Protobuf-GCC/cmake
+        BUILD_COMMAND make
+        INSTALL_COMMAND make install
+    )
+endif()

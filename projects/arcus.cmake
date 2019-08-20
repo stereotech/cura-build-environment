@@ -35,4 +35,22 @@ if(BUILD_OS_WINDOWS)
     SetProjectDependencies(TARGET Arcus-MinGW DEPENDS Sip Protobuf-MinGW Arcus)
 endif()
 
+if(BUILD_OS_OSX AND OSX_USE_GCC)
+    ExternalProject_Add(Arcus-GCC
+        GIT_REPOSITORY https://github.com/ultimaker/libArcus.git
+        GIT_TAG origin/${CURA_ARCUS_BRANCH_OR_TAG}
+        CMAKE_GENERATOR "Unix Makefiles"
+        CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+            -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}/gcc
+            -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}/gcc
+            -DCMAKE_C_COMPILER=${OSX_GCC_C_COMPILER}
+            -DCMAKE_CXX_COMPILER=${OSX_GCC_CXX_COMPILER}
+            -DBUILD_STATIC=ON
+            -DBUILD_EXAMPLES=OFF
+            -DBUILD_PYTHON=OFF
+        BUILD_COMMAND make
+        INSTALL_COMMAND make install
+    )
 
+    SetProjectDependencies(TARGET Arcus-GCC DEPENDS Protobuf-GCC)
+endif()
