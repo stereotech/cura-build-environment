@@ -1,3 +1,6 @@
+set(_cbe_protobuf_url https://github.com/protocolbuffers/protobuf/archive/v3.9.1.tar.gz)
+set(_cbe_protobuf_sha256 98e615d592d237f94db8bf033fba78cd404d979b0b70351a9e5aaff725398357)
+
 if(BUILD_OS_OSX)
     set(protobuf_cxx_flags "-fPIC -std=c++11 -stdlib=libc++")
 elseif(BUILD_OS_LINUX)
@@ -32,8 +35,8 @@ if(BUILD_OS_OSX)
 endif()
 
 ExternalProject_Add(Protobuf
-    URL https://github.com/google/protobuf/archive/v3.0.2.tar.gz
-    URL_MD5 7349a7f43433d72c6d805c6ca22b7eeb
+    URL ${_cbe_protobuf_url}
+    URL_HASH SHA256=${_cbe_protobuf_sha256}
     CONFIGURE_COMMAND ${CMAKE_COMMAND} ${protobuf_configure_args} -G ${CMAKE_GENERATOR} ../Protobuf/cmake
 )
 
@@ -53,8 +56,8 @@ if(BUILD_OS_WINDOWS)
     )
 
     ExternalProject_Add(Protobuf-MinGW
-        URL https://github.com/google/protobuf/archive/v3.0.2.tar.gz
-        URL_MD5 7349a7f43433d72c6d805c6ca22b7eeb
+        URL ${_cbe_protobuf_url}
+        URL_HASH SHA256=${_cbe_protobuf_sha256}
         DEPENDS Protobuf
         CONFIGURE_COMMAND ${CMAKE_COMMAND} ${protobuf_configure_args} -G "MinGW Makefiles" ../Protobuf-MinGW/cmake
         BUILD_COMMAND mingw32-make
@@ -73,13 +76,15 @@ if(BUILD_OS_OSX AND OSX_USE_GCC)
         -DCMAKE_C_FLAGS="-isystem ${CMAKE_PREFIX_PATH}/gcc/include"
         -DCMAKE_CXX_COMPILER=${OSX_GCC_CXX_COMPILER}
         -DCMAKE_CXX_FLAGS="-isystem ${CMAKE_PREFIX_PATH}/gcc/include"
+        -DCMAKE_CXX_STANDARD=11
+        -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=TRUE
         -Dprotobuf_BUILD_TESTS=OFF
         -Dprotobuf_BUILD_SHARED_LIBS=ON
     )
 
     ExternalProject_Add(Protobuf-GCC
-        URL https://github.com/protocolbuffers/protobuf/archive/v3.0.2.tar.gz
-        URL_MD5 7349a7f43433d72c6d805c6ca22b7eeb
+        URL ${_cbe_protobuf_url}
+        URL_HASH SHA256=${_cbe_protobuf_sha256}
         DEPENDS Protobuf
         CONFIGURE_COMMAND ${CMAKE_COMMAND} ${protobuf_configure_args} -G "Unix Makefiles" ../Protobuf-GCC/cmake
         BUILD_COMMAND make
