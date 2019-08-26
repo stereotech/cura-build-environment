@@ -62,8 +62,8 @@ elseif(BUILD_OS_LINUX)
 	 -pkg-config
 	 -opengl desktop -no-gtk
 	 -qt-xcb
+	 -system-freetype
 	 -fontconfig
-	 -qt-freetype
 	 -qt-zlib
 	 -ssl -openssl-runtime
 	 -I "${CMAKE_INSTALL_PREFIX}/include"

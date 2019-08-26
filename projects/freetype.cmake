@@ -1,6 +1,6 @@
 if(BUILD_OS_LINUX)
     set(_freetype_config_cmd
-        ./configure --prefix=${CMAKE_INSTALL_PREFIX} --with-zlib=yes --with-bzip2=yes
+        ./configure --prefix=${CMAKE_INSTALL_PREFIX} --with-zlib=yes --with-bzip2=no
     )
 
     ExternalProject_Add(freetype
@@ -11,5 +11,5 @@ if(BUILD_OS_LINUX)
         INSTALL_COMMAND make install
         BUILD_IN_SOURCE 1
     )
-    SetProjectDependencies(TARGET freetype DEPENDS bzip2-shared bzip2-static zlib)
+    SetProjectDependencies(TARGET freetype DEPENDS zlib)
 endif()
