@@ -6,15 +6,13 @@ on:
       - master
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - name: Checkout master
       uses: actions/checkout@master
     - name: Build and publish docker image
-      uses: HurricanKai/Publish-Docker-Github-Action@1.12.1
-      with:
-        name: ultimaker/cura-build-environment
-        dockerfile: docker/linux/Dockerfile.centos
-        snapshot: true
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      run: |
+        docker login -u ${{secrets.USERNAME}} -p ${{ secrets.PASSWORD }}
+        docker build -t stereotech/ste-slicer-build-environment:ltsc2019 -f .\docker\windows\Dockerfile.vs2015.ltsc2019 .
+        docker push stereotech/ste-slicer-build-environment:ltsc2019
+        
