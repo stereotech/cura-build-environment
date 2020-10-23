@@ -63,6 +63,7 @@ endif()
 # Other Python Packages
 add_custom_target(PythonPackages ALL
     COMMAND ${Python3_EXECUTABLE} -m pip install pycryptodome==3.9.8
+    COMMAND ${Python3_EXECUTABLE} -m pip install truepy==2.0.4
     COMMAND ${Python3_EXECUTABLE} -m pip install appdirs==1.4.3
     COMMAND ${Python3_EXECUTABLE} -m pip install certifi==2019.11.28
     COMMAND ${Python3_EXECUTABLE} -m pip install cffi==1.13.1
